@@ -1,6 +1,6 @@
 import pyautogui as gui
-import logres 
 import ctypes
+import time
 import os
 
 # 自動クリックプログラム作成の自動化プログラム
@@ -15,25 +15,88 @@ def createFile():
     # import文・インスタンスの記述
     with open(path, "w") as f:
         print("import pyautogui as gui", file=f)
-        print("import logres\n\n", file=f)
-        print("lg = logres.Logres()", file=f)
+        print("import logres\n", file=f)
+        print("\nlg = logres.Logres()\n", file=f)
+        print("N = 50\n", file=f) #繰り返し回数の指定
+    
+    return path
 
+# 情報を書き込む
+def outInf(path, xy, t):
+
+    print(xy, end=" ")
+    print("経過時間: %f" %(t))
+    x, y = xy
+
+    # 書き込み
+    with open(path, "a") as f:
+        if(REPERT):
+            print("    lg.gs(%d, %d, %f)" %(x, y, t), file=f)
+        else:
+            print("lg.gs(%d, %d, %f)" %(x, y, t), file=f)
+
+    return 0
+
+# 初動タイマー
+def Init():
+    print("\n5秒後に計測が開始します")
+    for i in range(5):
+        print("%d..." %(5-i))
+        time.sleep(1)
+    print("start\n====================\n")
+
+
+# 繰り返しフラグをひっくり返す
+def repertToggle(path):
+    global REPERT
+
+    if(REPERT):
+        print("繰り返し終了\n") 
+        with open(path, "a") as f:
+            print(" ", file=f)
+
+        REPERT = False
+    else:
+        print("\n繰り返し開始") 
+        with open(path, "a") as f:
+            print("\nfor i in range(N):\n", file=f)
+        
+        REPERT = True
 
 
 def main():
+    global REPERT
+
+    f = createFile()
+    Init()
+    
+    #繰り返し処理フラグ
+    REPERT = False
+    
+    # タイマーセット
+    time_sta = time.time()
 
     try:
         while True:
-            # 左クリック検知
+            # 左クリック
             if ctypes.windll.user32.GetAsyncKeyState(0x01) == 0x8000:
-                print('左クリック')
-                print(gui.position())
-                gui.sleep(0.5)
+                x = gui.position()
+                time_end = time.time()
+
+                # 経過時間
+                tim = time_end - time_sta
+                time_sta = time.time() #初期化
+                
+                outInf(f, x, tim)
+
+                gui.sleep(0.3)
+
 
             # 右クリック検知
             elif ctypes.windll.user32.GetAsyncKeyState(0x02) == 0x8000:
-                print("右クリック")
-                gui.sleep(0.5)
+
+                repertToggle(f)
+                gui.sleep(0.3)
         
             elif ctypes.windll.user32.GetAsyncKeyState(0x1B) == 0x8000:
                 print("Escが押されました")
@@ -42,6 +105,6 @@ def main():
     except KeyboardInterrupt:
         print('終了')
 
-# main()
-createFile()
+main()
+# createFile()
 

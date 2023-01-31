@@ -1,6 +1,4 @@
 import pyautogui as gui
-from pynput import mouse
-import time 
 import os
 
 class Logres:
