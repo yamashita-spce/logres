@@ -1,5 +1,5 @@
 import pyautogui as gui
 
-
-print(gui.position())
+x, y = gui.position()
+print(x, y)
 

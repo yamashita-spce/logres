@@ -72,10 +72,3 @@ class Logres:
         gui.click()
         gui.sleep(t)
 
-
-# # プログラム作成file
-# print(os.getcwd())
-# print("ファイル名を入力")
-# filename = input()
-
-# # with open("")
