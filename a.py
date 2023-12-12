@@ -66,40 +66,42 @@ def click5(t=3):
 
 #クエスト選択状態から
 #クエスト受託
-gs(-281, 383)
-gst(-140, 756, 8)
+# gs(-281, 383)
+# gst(-140, 756, 8)
 
 
 #オシリス時限(リーフ)================
-# for i in range(50):
-#     #移動
-#     gst(-454, 329, 6)
-#     #戦闘
-#     gs(-121, 476)
-#     gst(-428, 603, 10)
+for i in range(50):
+    #移動
+    gst(-454, 329, 6)
+    #戦闘
+    gs(-121, 476)
+    gst(-428, 603, 10)
     
-#     #終了画面 もう一度
-#     finish()
-#     onemore()
+    #終了画面 もう一度
+    finish()
+    onemore()
 
-# finish()
+
+offline()
+PCsleep()
 #============================
 
 #ルシェメル時限======================
-for i in range(8):
+# for i in range(8):
     
-    # 移動
-    gst(-7, 256, 8)
-    # 戦闘
-    gs(-88, 393)
-    click1(5)
-    click1(5)
-    click1(5)
-    click1(5)
-    click1(10)
+#     # 移動
+#     gst(-7, 256, 8)
+#     # 戦闘
+#     gs(-88, 393)
+#     click1(5)
+#     click1(5)
+#     click1(5)
+#     click1(5)
+#     click1(10)
 
-    finish()
-    onemore()
+#     finish()
+#     onemore()
 
 
 

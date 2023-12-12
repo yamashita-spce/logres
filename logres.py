@@ -1,29 +1,27 @@
 import pyautogui as gui
 import os
+import ctypes
 
 class Logres:
 
     #任意の場所をクリック（tで待機時間を設定)
     def gs(self, x, y, t=3):
+        gui.sleep(t)
         gui.moveTo(x, y)
         gui.click()
-        gui.sleep(t)
+        
 
     #ログレスを閉じる
     def offline(self):
         gui.moveTo(-23, 16)
         gui.click()
+        gui.sleep(3)
 
     # パソコンをスリープに
     def PCsleep(self):
-        gui.moveTo(17, 1063)
-        gui.click()
-        gui.sleep(2)
-        gui.moveTo(22, 1024)
-        gui.click()
-        gui.sleep(2)
-        gui.moveTo(24, 908)
-        gui.click()
+       #Windowsのスリープ
+       ctypes.windll.PowrProf.SetSuspendState(0, 1, 0)
+
 
     # 基本的な終了画面（次のクエストがない: フレンド選択なし)
     def finish1(self):
@@ -43,7 +41,7 @@ class Logres:
 
     #待機
     def sleep(self, t=3):
-        gui.sleep(3)
+        gui.sleep(t)
 
     def click1(self, t=3):
         gui.moveTo(-433, 730)

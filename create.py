@@ -27,6 +27,7 @@ def outInf(path, xy, t):
     print(xy, end=" ")
     print("経過時間: %f" %(t))
     x, y = xy
+    t = t  #遅延するか否か
 
     # 書き込み
     with open(path, "a") as f:
@@ -43,7 +44,7 @@ def Init():
     for i in range(5):
         print("%d..." %(5-i))
         time.sleep(1)
-    print("start\n====================\n")
+    print("start\n==6==================\n")
 
 
 # 繰り返しフラグをひっくり返す
@@ -63,12 +64,33 @@ def repertToggle(path):
         
         REPERT = True
 
+# 終了
+def finish(path, settime, t):
+    
+    if(REPERT):
+        with open(path, "a") as f:
+            print("    lg.sleep(%f)" %(t), file=f)
+    else:
+        with open(path, "a") as f:
+            print("lg.sleep(%f)" %(t), file=f)
+    
+    with open(path, "a") as f:
+        cycle = time.time() - settime 
+        print("\nlg.offline()", file=f)
+        print("# lg.PCsleep()", file=f)
+        print("\n# TIME : %.1f" %(cycle), file = f)
+        print("# 98 minute -> N = %d" %(5880/cycle), file = f)
+        print("# 58 minute -> N = %d" %(3480/cycle), file = f)
 
+        
 def main():
     global REPERT
 
     f = createFile()
     Init()
+
+    # プログラム全体タイマー
+    alltime = time.time()
     
     #繰り返し処理フラグ
     REPERT = False
@@ -99,6 +121,13 @@ def main():
                 gui.sleep(0.3)
         
             elif ctypes.windll.user32.GetAsyncKeyState(0x1B) == 0x8000:
+                
+                # 経過時間
+                time_end = time.time()
+                tim = time_end - time_sta
+                time_sta = time.time() #初期化
+
+                finish(f, alltime, tim)
                 print("Escが押されました")
                 break
 
